@@ -13,15 +13,12 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity //implements SearchView.OnQueryTextListener
+public class MainActivity extends AppCompatActivity
 {
 
     private RecyclerView recyclerView;
     private SongAdapter adapter;
     private SongViewModel songViewModel;
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,15 +31,12 @@ public class MainActivity extends AppCompatActivity //implements SearchView.OnQu
                 adapter.getFilter().filter(newText);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
                 return true;
             }
         });
-
-
         return true;
     }
 
@@ -69,23 +63,16 @@ public class MainActivity extends AppCompatActivity //implements SearchView.OnQu
                 adapter.reload(songs);
             }
         });
-
-        //устанавливаем лисенер для списка favorite песен
         adapter.setOnItemClickListener(new SongAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Song song) {
                 songViewModel.changeFavStatus(song);
-
             }
         });
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
 }

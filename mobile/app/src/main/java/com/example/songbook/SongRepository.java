@@ -68,16 +68,14 @@ public class SongRepository {
                 if (allSongs.getValue().size() == 0 ){
                     insertAll(songsFromServer);
                 }
-                else{                // then change to !=
+                else{
                     if (allSongs.getValue().size() != songsFromServer.size()) {
                         for (int j = 0; j < allSongs.getValue().size(); j++){
                             int favoriteStatus = allSongs.getValue().get(j).getFavStatus();
                             songsFromServer.get(j).setFavStatus(favoriteStatus);
                         }
                         insertAll(songsFromServer);
-
-
-                    }else {
+                   }else {
                         Log.d("cs50","local and web databases are equal");
                     }
                 }

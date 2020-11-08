@@ -29,6 +29,4 @@ public interface SongDao {
     @Query("DELETE FROM songs")
     void deleteAllSongs();
 
-//    @Query("SELECT favStatus FROM songs WHERE id = :id")
-//    void getFavStatus(int id);
 }
