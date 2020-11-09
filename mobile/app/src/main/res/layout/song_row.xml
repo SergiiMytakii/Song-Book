@@ -7,7 +7,8 @@
     android:padding="8dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:animateLayoutChanges="true">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -25,7 +26,8 @@
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
             android:text="example"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            />
 
         <Button
             android:id="@+id/liked_button"

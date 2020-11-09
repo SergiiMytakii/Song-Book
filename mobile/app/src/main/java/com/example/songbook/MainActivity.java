@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,8 +51,9 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager( this));
         recyclerView.setHasFixedSize(true);
-        adapter = new SongAdapter();
+        adapter = new SongAdapter(getApplicationContext());
         recyclerView.setAdapter(adapter);
+
 
         songViewModel = new ViewModelProvider(this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))

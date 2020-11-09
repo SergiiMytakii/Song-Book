@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +54,9 @@ public class SongActivity extends AppCompatActivity {
         titleTextView.setText(getIntent().getStringExtra(EXTRA_TITLE));
         descriptionTextView.setText(getIntent().getStringExtra(EXTRA_DESCRIPTION));
         textTextView.setText(getIntent().getStringExtra(EXTRA_TEXT));
+        titleTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
+        descriptionTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
+        textTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
 
     }
 }

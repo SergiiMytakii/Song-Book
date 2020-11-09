@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -35,6 +36,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private List<Song> songs = new ArrayList<>();
     private List<Song> filtered = new ArrayList<>();
     private OnItemClickListener listener;
+    Context mContext;
+
+    public SongAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @Override
     public Filter getFilter() {
@@ -149,6 +155,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         //Log.d("cs50", "filtered size is " + filtered.size());
         holder.containerView.setTag(current);
         holder.setColorFavoriteSongButton(current);
+        holder.containerView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_scale_animation));
 
 
     }
