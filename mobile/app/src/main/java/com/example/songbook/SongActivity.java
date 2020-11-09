@@ -55,7 +55,7 @@ public class SongActivity extends AppCompatActivity {
         descriptionTextView.setText(getIntent().getStringExtra(EXTRA_DESCRIPTION));
         textTextView.setText(getIntent().getStringExtra(EXTRA_TEXT));
         titleTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
-        descriptionTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
+        descriptionTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_lefttoright_animation));
         textTextView.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_transition_animation));
 
     }
