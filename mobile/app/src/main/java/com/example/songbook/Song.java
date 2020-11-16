@@ -12,22 +12,22 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "songs", indices = {@Index("id"), @Index(value = "title")})
 
 public class Song {
-    @PrimaryKey()
-    private int id;
-    private String title;
-    private String text;
-    private String description;
-    private String created_at;
-    private String updated_at;
-    private  String  language;
+       @PrimaryKey()
+    public int id;
+    public String title;
+    public String text;
+    public String description;
+    public String created_at;
+    public String updated_at;
+    public  String  language;
     @ColumnInfo(defaultValue = "0")
-    private int favStatus = 0;
+    public int favStatus = 0;
 
 
 
 
 
-    Song(int id, String title, String text, String description, String created_at,
+    public Song(int id, String title, String text, String description, String created_at,
          String updated_at, String language){
         this.id = id;
         this.title = title;
@@ -38,6 +38,9 @@ public class Song {
         this.language = language;
 
 
+    }
+
+    public Song() {
     }
 
     public String getText(){return text;}
@@ -67,6 +70,35 @@ public class Song {
     public void setFavStatus(int favStatus) {
         this.favStatus = favStatus;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+
+
 
 
 

@@ -1,79 +1,67 @@
 package com.example.songbook;
 
-import android.app.Application;
-import android.content.Context;
+
+
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.NonNull;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongLoader {
+import javax.security.auth.callback.Callback;
 
-    public SongLoader(Context context) {
-        requestQueue = Volley.newRequestQueue(context);
-
-    }
-
-    public List<Song> songs = new ArrayList<>();
-    private RequestQueue requestQueue;
-
-
-    public synchronized void loadSong() {
-
-        String url = "https://song-book-289222.ew.r.appspot.com/api/songs";
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray results = response.getJSONArray("songs");
-
-                   //Log.d("cs50", "response is: " + response.toString());
-                    for (int i = 0; i < results.length(); i++) {
-                        JSONObject result = results.getJSONObject(i);
-                        Song songTemp = new Song(result.getInt("id"), result.getString("title"),
-                                result.getString("text"), result.getString("description"),
-                                result.getString("created_at"), result.getString("updated_at"), result.getString("language"));
-                         Log.d("cs50", "songTemp:" + songs.size());
-                         songs.add(songTemp);
-
-
-                    }
-                    //передаем статической переменной репозитория список песен
-                    SongRepository.songsFromServer = songs;
-                    Log.d("cs50", " Songrepository.songsfromserver = " + SongRepository.songsFromServer.size());
+public class SongLoader  {
+        public List<Song> songs = new ArrayList<>();
+        private DatabaseReference mDataBase;
+        private String USER_KEY = "Songs";
+        private Song song;
 
 
 
+    public SongLoader() {
+        init();
+           }
 
 
-                } catch (JSONException e) {
-                    Log.e("cs50", "Json error", e);
+    private void init(){
+               mDataBase = FirebaseDatabase.getInstance().getReference(USER_KEY);
+        }
+        public List<Song> load(){
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (songs.size() > 0) songs.clear();
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        song = ds.getValue(Song.class);
+                        int id = Integer.parseInt(ds.getKey());
+                        song.setId(id);
+                        Log.d("cs50", song.getId() + " " + song.getTitle());
+                        assert song != null;
+                        songs.add(song);
+                     }
+
+
                 }
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("cs50", "Song list error");
-                Log.e("cs50", error.toString());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-        requestQueue.add(request);
-       }
+                }
+            };
+            mDataBase.addValueEventListener(valueEventListener);
+            return songs;
+        }
+
+
+
+
+
 
 }

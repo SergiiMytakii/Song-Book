@@ -10,20 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongRepository {
-    private SongDao songDao;
+     private SongDao songDao;
     private LiveData<List<Song>> allSongs;
 
 
     public static List<Song> songsFromServer = new ArrayList<>();
-    SongLoader songLoader;
+
 
     public SongRepository(Application application) {
         SongDatabase database = SongDatabase.getInstance(application);
         songDao = database.songDao();
 
 
-        loadSongsFromWeb(application);
+
         allSongs = songDao.getAllSongs();
+        songsFromServer = new SongLoader().load();
+        loadSongsFromWeb();
 
     }
 
@@ -48,17 +50,16 @@ public class SongRepository {
     }
 
 
-    private void loadSongsFromWeb(Application application) {
-        songLoader = new SongLoader(application);
-        songLoader.loadSong();
-        final Thread thread = new Thread(new Runnable() {
+    public void loadSongsFromWeb() {
+            final Thread thread = new Thread(new Runnable() {
             @Override
             public synchronized void run() {
+
                 int i = 0;
-                while (songsFromServer.size() == 0 && i < 10000) {
+                while ( i < 5000) {
                     try {
                         wait(1);
-                        //Log.d("cs50", "waiting for data " + i);
+                        Log.d("cs50", "waiting for data " + i);
                         i++;
 
                     } catch (InterruptedException e) {
@@ -67,17 +68,18 @@ public class SongRepository {
                 }
                 if (allSongs.getValue().size() == 0 ){
                     insertAll(songsFromServer);
+                    Log.d("cs50", "inserted all database");
                 }
                 else{
-                    if (allSongs.getValue().size() != songsFromServer.size()) {
+                    Log.d("cs50", "allSongs size is "
+                            + allSongs.getValue().size() + " songsFromServer is " + songsFromServer.size());
                         for (int j = 0; j < allSongs.getValue().size(); j++){
                             int favoriteStatus = allSongs.getValue().get(j).getFavStatus();
-                            songsFromServer.get(j).setFavStatus(favoriteStatus);
-                        }
+                           songsFromServer.get(j).setFavStatus(favoriteStatus);
+                          }
+                        deleteAllSongs();
                         insertAll(songsFromServer);
-                   }else {
-                        Log.d("cs50","local and web databases are equal");
-                    }
+
                 }
                 Thread.currentThread().interrupt();
             }
@@ -152,5 +154,6 @@ public class SongRepository {
             return null;
         }
     }
+
 
 }

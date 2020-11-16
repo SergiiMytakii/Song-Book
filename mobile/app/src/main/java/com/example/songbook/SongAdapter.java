@@ -111,7 +111,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         favoriteSong.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
+                    int position = getAbsoluteAdapterPosition();
 
                     if(listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(songs.get(position));
