@@ -1,4 +1,4 @@
-package com.example.songbook1;
+package com.sergiimytakii.songbook;
 
 import android.content.Context;
 

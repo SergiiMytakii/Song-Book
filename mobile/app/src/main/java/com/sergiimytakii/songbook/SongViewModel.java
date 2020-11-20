@@ -1,14 +1,12 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SongViewModel extends AndroidViewModel {

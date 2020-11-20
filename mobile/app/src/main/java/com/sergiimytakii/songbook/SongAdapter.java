@@ -1,4 +1,4 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,21 +12,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +90,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
                     intent.putExtra(SongActivity.EXTRA_TEXT, current.getText());
                     intent.putExtra(SongActivity.EXTRA_DESCRIPTION, current.getDescription());
                     //мой добавленный Toast
-                    String message = "Good choice";
-                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+//                    String message = "Good choice";
+//                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
                     v.getContext().startActivity(intent);
                 }
             });

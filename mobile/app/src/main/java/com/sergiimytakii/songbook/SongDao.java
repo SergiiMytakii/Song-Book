@@ -1,4 +1,4 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

@@ -1,8 +1,13 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -10,25 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongRepository {
-     private SongDao songDao;
+    private SongDao songDao;
     private LiveData<List<Song>> allSongs;
-
-
     public static List<Song> songsFromServer = new ArrayList<>();
-
 
     public SongRepository(Application application) {
         SongDatabase database = SongDatabase.getInstance(application);
         songDao = database.songDao();
-
-
-
         allSongs = songDao.getAllSongs();
         songsFromServer = new SongLoader().load();
-        loadSongsFromWeb();
-
+        loadSongsFromWeb(application.getApplicationContext());
     }
-
 
     public void insertAll(List<Song> songs) {
         new InsertAllSongAsyncTask(songDao).execute(songs);
@@ -50,35 +47,43 @@ public class SongRepository {
     }
 
 
-    public void loadSongsFromWeb() {
-            final Thread thread = new Thread(new Runnable() {
+    private void loadSongsFromWeb(final Context context) {
+
+
+        final Thread thread = new Thread(new Runnable() {
             @Override
             public synchronized void run() {
 
                 int i = 0;
-                while ( i < 5000) {
+                while (i < 5000) {
                     try {
                         wait(1);
-                        Log.d("cs50", "waiting for data " + i);
+                        //Log.d("cs50", "waiting for data " + i);
                         i++;
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                if (allSongs.getValue().size() == 0 ){
+
+                if (allSongs.getValue().size() == 0 && songsFromServer.size() != 0 ){
                     insertAll(songsFromServer);
-                    Log.d("cs50", "inserted all database");
                 }
                 else{
-                    Log.d("cs50", "allSongs size is "
-                            + allSongs.getValue().size() + " songsFromServer is " + songsFromServer.size());
+                    if (allSongs.getValue().size() < songsFromServer.size()) {
                         for (int j = 0; j < allSongs.getValue().size(); j++){
                             int favoriteStatus = allSongs.getValue().get(j).getFavStatus();
-                           songsFromServer.get(j).setFavStatus(favoriteStatus);
-                          }
-                        deleteAllSongs();
+                            songsFromServer.get(j).setFavStatus(favoriteStatus);
+                        }
                         insertAll(songsFromServer);
+                   }else {
+                        Log.d("cs50","local and web databases are equal");
+                    }
+                }
+                if (allSongs.getValue().size() == 0 && songsFromServer.size() == 0){
+                    Log.d("cs50", "Упс.. не можем загрузить песни с сервера... проверьте интернет соединение");
+                    errorMsg(context);
+
 
                 }
                 Thread.currentThread().interrupt();
@@ -155,5 +160,17 @@ public class SongRepository {
         }
     }
 
+    public void errorMsg(final Context context){
+        Looper.prepare();//Call looper.prepare()
 
+        Handler mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                Toast.makeText(context, "Finco is Daddy", Toast.LENGTH_LONG);
+            }
+        };
+
+        Looper.loop();
+    }
+        //Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(Song song) {
                 songViewModel.changeFavStatus(song);
+
             }
         });
     }

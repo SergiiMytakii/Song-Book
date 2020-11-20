@@ -1,18 +1,14 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
-import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "songs", indices = {@Index("id"), @Index(value = "title")})
 
 public class Song {
-       @PrimaryKey()
+    @PrimaryKey()
     public int id;
     public String title;
     public String text;
@@ -27,7 +23,7 @@ public class Song {
 
 
 
-    public Song(int id, String title, String text, String description, String created_at,
+    Song(int id, String title, String text, String description, String created_at,
          String updated_at, String language){
         this.id = id;
         this.title = title;
@@ -73,30 +69,6 @@ public class Song {
     public void setId(int id) {
         this.id = id;
     }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
 
 
 

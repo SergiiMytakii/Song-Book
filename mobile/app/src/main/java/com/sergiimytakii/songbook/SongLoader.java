@@ -1,4 +1,4 @@
-package com.example.songbook;
+package com.sergiimytakii.songbook;
 
 
 
@@ -14,8 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.callback.Callback;
 
 public class SongLoader  {
         public List<Song> songs = new ArrayList<>();
@@ -40,12 +38,11 @@ public class SongLoader  {
                     if (songs.size() > 0) songs.clear();
                     for(DataSnapshot ds : snapshot.getChildren()){
                         song = ds.getValue(Song.class);
-                        int id = Integer.parseInt(ds.getKey());
-                        song.setId(id);
                         Log.d("cs50", song.getId() + " " + song.getTitle());
                         assert song != null;
                         songs.add(song);
                      }
+                    SongRepository.songsFromServer = songs;
 
 
                 }
