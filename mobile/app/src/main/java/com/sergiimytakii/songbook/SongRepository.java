@@ -82,7 +82,7 @@ public class SongRepository {
                 }
                 if (allSongs.getValue().size() == 0 && songsFromServer.size() == 0){
                     Log.d("cs50", "Упс.. не можем загрузить песни с сервера... проверьте интернет соединение");
-                    errorMsg(context);
+                   ToastUtils.show(context, "Упс.. не можем загрузить песни с сервера... проверьте интернет соединение");
 
 
                 }
@@ -160,17 +160,23 @@ public class SongRepository {
         }
     }
 
-    public void errorMsg(final Context context){
-        Looper.prepare();//Call looper.prepare()
+    public static class ToastUtils {
+        static Toast toast = null;
+        public static void show(Context context, String text) {
+            try {
+                if(toast!=null){
+                    toast.setText(text);
+                }else{
+                    toast= Toast.makeText(context, text, Toast.LENGTH_LONG);
+                }
+                toast.show();
+            } catch (Exception e) {
 
-        Handler mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                Toast.makeText(context, "Finco is Daddy", Toast.LENGTH_LONG);
+                Looper.prepare();
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
-        };
+        }
+    }
 
-        Looper.loop();
-    }
-        //Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
-    }
 }
